@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Inter;
-  background-color: #272B30;
+  background-color: #272b30;
 }
 
 * {
@@ -10,42 +10,58 @@ body {
   line-height: normal;
   font-family: inherit;
   margin: unset;
-   font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
-/* Yeh CSS aapko apni project ki main CSS file mein add karna hai */
-
 .slide-right-effect {
-  position: relative; /* Essential: Pseudo-element ki positioning ke liye */
-  overflow: hidden; /* Essential: Slide ko button boundary ke andar rakhne ke liye */
-  z-index: 1; /* Button ka content (text) slide ke upar rahe */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .slide-right-effect::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 0; /* Slide shuru mein zero width ka hoga (hidden) */
-  /* background-color: #252627; Slide ka color (Aap isko change kar sakte hain) */
+  width: 0;
   background-image: linear-gradient(to left, #26272c, #222222);
-  transition: width 0.3s ease-out; /* Transition sirf width par lagao */
-  z-index: -1; /* Slide ko button text ke peeche bhejo */
+  transition: width 0.3s ease-out;
+  z-index: -1;
 }
 
-/* Hover karne par, slide ki width badha do */
 .slide-right-effect:hover::before {
   width: 195px;
 }
 
-
 .custom-bottom-shadow {
-    /* Shadow sirf bottom mein ho (y-offset: 4px), soft ho (blur: 6px) */
-    box-shadow: 0px 16px 37px 0px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-    /* Zaroori: Ensure button ka background transparent na ho, warna shadow container par lag jayegi. */
-    /* Agar button transparent hai toh yeh kaam nahi karega, use 'position: relative' aur ':after' trick use karni padegi. */
+  box-shadow: 0px 16px 37px 0px rgba(0, 0, 0, 0.5),
+    0 2px 4px -2px rgba(0, 0, 0, 0.3);
+}
+
+.slide-diagonal-effect {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.slide-diagonal-effect::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  background-image: linear-gradient(to top, #040c135b, #030f1d59);
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+  z-index: -1;
+}
+
+.slide-diagonal-effect:hover::before {
+  width: 100%;
+  height: 100%;
 }

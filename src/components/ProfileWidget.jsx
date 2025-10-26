@@ -1,12 +1,6 @@
-// src/components/ProfileWidget.js
-
 import React, { useState } from "react";
 
-// --- Function to format content with paragraph breaks ---
-// Hum content mein <br/> ke bajaye <p> tags use karenge jisse margin apply ho sake.
 const formatContent = (content) => {
-  // Content ko double line break (\n\n) par split karke har tukde ko ek <p> tag mein wrap karte hain.
-  // Single line break (\n) ko <br/> se replace karte hain agar zaroori ho.
   return content.split("\n\n").map((paragraph, index) => (
     <p key={index} className={index > 0 ? "mt-5" : ""}>
       {paragraph}
@@ -14,21 +8,13 @@ const formatContent = (content) => {
   ));
 };
 
-// const tabs = [
-//     { id: 'about', label: 'About Me', content: "Hello! I’m Dave, your sales rep here from Salesforce. I’ve been working at this awesome company for 3 years now. I was born and raised in Albany, NY& have been living in Santa Carla for the past 10 years my wife Tiffany and my 4 year old twin daughters- Emma and Ella. Both of them are just starting school, so my calender is usually blocked between 9-10 AM. This is a... " },
-//     { id: 'experiences', label: 'Experiences', content: "My experience includes leading successful sales teams and consistently exceeding quarterly targets. I specialize in cloud solutions and enterprise resource planning. I have previously worked at Microsoft and Oracle." },
-//     { id: 'recommended', label: 'Recommended', content: "Dave comes highly recommended for his exceptional communication skills and client relationship management. His dedication to finding the best solutions for customers is unmatched." },
-// ];
-
 const tabs = [
   {
     id: "about",
     label: "About Me",
-    // Content ko \n\n se separate kiya hai jisse woh do alag <p> tags mein render ho.
     content:
       "Hello! I’m Dave, your sales rep here from Salesforce. I’ve been working at this awesome company for 3 years now.\n\n" +
       "I was born and raised in Albany, NY & have been living in Santa Carla for the past 10 years my wife Tiffany and my 4 year old twin daughters- Emma and Ella. Both of them are just starting school, so my calender is usually blocked between 9–10 AM. This is a...",
-    // Note: 'This is a...' ke baad ka content visible nahi hai, isliye humne usko short rakha hai.
   },
   {
     id: "experiences",
@@ -47,111 +33,51 @@ const tabs = [
 
 const ProfileWidget = () => {
   const [activeTabId, setActiveTabId] = useState("about");
-
-  // const activeTabContent = tabs.find(t => t.id === activeTabId)?.content || tabs[0].content;
-
   const activeTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
-  const activeTabContent = formatContent(activeTab.content); // Content ko format kiya
+  const activeTabContent = formatContent(activeTab.content);
 
-  // --- Figma color and styling matches ---
   const WIDGET_BG_COLOR = "bg-[#363c43]";
   const BORDER_COLOR = "border-[#3C3C43]";
-  const TAB_CONTAINER_BG = "bg-[#1D1D21]"; // Tabs ka container background bhi widget jaisa hi dikh raha hai
+  const TAB_CONTAINER_BG = "bg-[#1D1D21]";
   const ACTIVE_TAB_BG = "bg-[#28292f]";
-  const ACTIVE_TAB_TEXT = "text-white";
-  const INACTIVE_TAB_TEXT = "text-[#969696]"; // Figma ka inactive tab text color
-  const CONTENT_TEXT_COLOR = "text-[#969696]"; // Content text color
-
+  const INACTIVE_TAB_TEXT = "text-[#969696]";
+  const CONTENT_TEXT_COLOR = "text-[#969696]";
 
   const buttonWidth = 195;
-    const containerPadding = 8; // p-1 in Tailwind is 0.25rem = 4px (default)
-    const tabGap = 10;
-    const INDICATOR_OFFSET = 6;
+  const containerPadding = 8;
+  const tabGap = 10;
+  const INDICATOR_OFFSET = 6;
 
-
-    // const getIndicatorStyles = () => {
-    //     // Tab index dhoondho (e.g., tab1 = 0, tab2 = 1)
-    //     const activeIndex = tabs.findIndex(tab => tab.id === activeTabId);
-
-    //     // Calculate left position: (Container Padding) + (Index * Button Width) + (Index * Gap between buttons if any)
-    //     // Since buttons are side-by-side without an explicit gap in the loop, we use:
-    //     const leftPosition = containerPadding + (activeIndex * buttonWidth);
-        
-    //     return {
-    //         width: `${buttonWidth}px`, // Indicator ki width button ke barabar
-    //         left: `${leftPosition}px`, // Indicator ki position
-    //     };
-    // };
-
-  // return (
-  //     // Dark, rounded container with correct padding and shadow
-  //     <div className="bg-[#363c43] p-6 rounded-xl shadow-2xl border border-[#363C43] w-[720px] h-[316px] ">
-
-  //         {/* TABS Navigation Area */}
-  //         <div className="flex p-1 bg-[#121215] rounded-full w-fit mb-6">
-  //             {tabs.map((tab) => (
-  //                 <button
-  //                     key={tab.id}
-  //                     onClick={() => setActiveTabId(tab.id)}
-  //                     // Styling match
-  //                     className={`py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200
-  //                       ${activeTabId === tab.id
-  //                         ? 'bg-white text-gray-900 shadow-md'
-  //                         : 'text-gray-400 hover:text-white'
-  //                       }`}
-  //                 >
-  //                     {tab.label}
-  //                 </button>
-  //             ))}
-  //         </div>
-
-  //         {/* Content Area */}
-  //         {/* Custom scrollbar styling ke liye alag se CSS file mein classes banani pad sakti hain */}
-  //         <div className="text-sm text-gray-300 max-h-[175px] min-h-[175px] overflow-y-auto pr-2 custom-scrollbar w-[611px] text-[#7E8081] text-[20px] leading-[1.4]">
-  //             {activeTabContent}
-  //         </div>
-
-  //         {/* Note: Scrollbar styling ko aapko apni main CSS file (e.g., index.css) mein add karna padega */}
-  //     </div>
-  // );
-
-
-  // --- Simple Click Handler ---
-const handleTabClick = (newTabId) => {
-    // Sirf indicator aur active tab ID ko update karein
-    setActiveTabId(newTabId); 
-    // Content change bhi automatic ho jayega
-};
+  const handleTabClick = (newTabId) => {
+    setActiveTabId(newTabId);
+  };
 
   const getIndicatorStyles = () => {
-    const activeIndex = tabs.findIndex(tab => tab.id === activeTabId);
-
-    // 🌟 FIX: Movement distance mein button width aur gap dono ko add karo
+    const activeIndex = tabs.findIndex((tab) => tab.id === activeTabId);
     const moveDistance = activeIndex * (buttonWidth + tabGap);
 
-    // Nayi, choti width
     const indicatorWidth = buttonWidth - INDICATOR_OFFSET;
 
     return {
-        // 🌟 FIX: Indicator ki width kam kar di gayi
-        width: `${indicatorWidth}px`, 
-        transform: `translateX(${moveDistance}px)`,
+      width: `${indicatorWidth}px`,
+      transform: `translateX(${moveDistance}px)`,
     };
-};
-
+  };
 
   return (
-    // *WIDGET CONTAINER STYLING*
     <div
-      // Design ke hisaab se 720px width aur 316px height (paddings ke baad) ko adjust karna hoga.
-      // Hum padding ko 24px (p-6) aur width ko responsive rakhte hain.
       className={`${WIDGET_BG_COLOR} p-6 rounded-[18.89px] shadow-2xl border ${BORDER_COLOR} `}
-      style={{ width: "740px", maxHeight: "336px", boxShadow: '5px 6px 6px 0 rgba(0, 0, 0, 0.5), -1px -1px 2px 0 rgba(255, 255, 255, 0.05)', }} // Approx width for nice layout (Figma width 611px content + padding)
+      style={{
+        width: "740px",
+        maxHeight: "336px",
+        boxShadow:
+          "5px 6px 6px 0 rgba(0, 0, 0, 0.5), -1px -1px 2px 0 rgba(255, 255, 255, 0.05)",
+      }}
     >
       <div className="flex justify-center">
-        <div className="text-xl font-bold text-gray-200 flex  ml-[35px] mr-[23px] w-[24px] h-[159.69px]  relative mt-[1px]">
-          {/* NEW: Question Mark Icon */}
 
+        {/* Question Mark Icon */}
+        <div className="text-xl font-bold text-gray-200 flex  ml-[35px] mr-[23px] w-[24px] h-[159.69px]  relative mt-[1px]">
           <svg
             width="24"
             height="24"
@@ -182,122 +108,84 @@ const handleTabClick = (newTabId) => {
             className="absolute ml-[4px] mt-[117px] w-[24px] h-[30.69px]
                             grid grid-cols-2 gap-[2px]"
           >
-            {" "}
-            {/* <-- NEW: grid grid-cols-2 aur gap */}
-            {/* Use a map or repeat the span elements for 6 boxes */}
+            
             {[...Array(6)].map((_, i) => (
               <span
                 key={i}
-                className="w-[9.31px] h-[9.17px] bg-gray-400 block rounded-[1.16px] bg-[#4A4E54]"
+                className="w-[9.31px] h-[9.17px] block rounded-[1.16px] bg-[#4A4E54]"
               ></span>
             ))}
           </div>
-
-
-
         </div>
 
-
-
         <div>
-          {/* TABS Navigation Area */}
-          {/* <div
-            // Tabs container ka background black nahi, widget jaisa hi dark grey hai
-            className={`flex p-1 ${TAB_CONTAINER_BG} rounded-full w-[614px] h-[62px] rounded-[23px] mb-6 shadow-inner text-[#28292f] bg-[#171717]`}
+          <div
+            className={`relative flex p-1 ${TAB_CONTAINER_BG} w-[614px] h-[62px] rounded-[23px] mb-6 shadow-inner text-[#28292f] bg-[#171717]`}
+            style={{
+              position: "relative",
+              gap: "10px",
+              alignItems: "center",
+              paddingInline: "8px",
+              marginBottom: "30px",
+            }}
           >
+            <div
+              className="absolute w-[195px]"
+              style={{
+                bottom: "0px",
+                left: "28px",
+                width: "170px",
+                height: "0px",
+                zIndex: 0,
+                boxShadow: "0px 10px 45px 11px rgba(0, 0, 0, 0.7)",
+              }}
+            />
+
+            <div
+              className={`absolute ${ACTIVE_TAB_BG} rounded-[16px] h-[49px] transition-all duration-700 ease-in-out z-10 bg-[#171717]`}
+              style={{
+                ...getIndicatorStyles(),
+
+                boxShadow: " 5px 10px 29px 15px rgba(0, 0, 0, 0.55)",
+                left: `${containerPadding}px`,
+                top: `${containerPadding}px`,
+              }}
+            />
+
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTabId(tab.id)}
-                // *TAB BUTTON STYLING*
-                className={`slide-right-effect py-2 px-4 text-[20px] font-semibold transition-all duration-200 w-[195px] h-[49px] rounded-[16px] pt-[10px] pr-[24px] pb-[10px] pl-[24px] gap-[10px] 
-                            ${
-                              activeTabId === tab.id
-                                ? `${ACTIVE_TAB_BG} ${ACTIVE_TAB_TEXT} shadow-[#485B71]` // Active Tab: White BG
-                                : `${INACTIVE_TAB_TEXT} hover:text-white` // Inactive Tab: Gray text
-                            }`} style={{ fontFamily: '"Poppins", sans-serif',fontWeight: '500',fontStyle: 'normal'}}
+                onClick={() => handleTabClick(tab.id)}
+                className={`${
+                  activeTabId !== tab.id ? "slide-right-effect" : ""
+                } py-2 px-4 text-[18px] font-semibold transition-colors duration-100 w-[195px] h-[49px] rounded-[16px] pt-[10px] pr-[24px] pb-[10px] pl-[24px]  z-10
+                    
+
+                     ${
+                       activeTabId === tab.id
+                         ? `${ACTIVE_TAB_BG} text-white delay-500 shadow-[#485B71]`
+                         : `${INACTIVE_TAB_TEXT}`
+                     }`}
+                style={{
+                  fontFamily: '"Poppins", sans-serif',
+                  fontWeight: "500",
+                  fontStyle: "normal",
+                  lineHeight: "16.12px",
+                  textAlign: "center",
+                  outline: "none",
+                  border: "none",
+                }}
               >
                 {tab.label}
               </button>
             ))}
-          </div> */}
-
-
-        
-        <div
-            className={`relative flex p-1 ${TAB_CONTAINER_BG} w-[614px] h-[62px] rounded-[23px] mb-6 shadow-inner text-[#28292f] bg-[#171717]`}
-            style={{ position: 'relative', gap: '10px', alignItems:"center", paddingInline:"8px", marginBottom:"30px"}} // Make sure container is relative for absolute children
-        >
-
-          {/* 🌟 NEW: Shadow Element for 'About Me' Region */}
-    <div 
-        className="absolute w-[195px]" // Button ki width 195px
-        style={{
-            // Position: Container ki bottom edge par, 0px upar
-            bottom: '0px', 
-            // Left position: Container ki padding (8px) se shuru hoga
-            left: '28px', 
-            width:'170px',
-            // Height: Shadow ka visibility area
-            height: '0px', 
-            // Z-index: Buttons aur indicator ke neeche (z-0)
-            zIndex: 0, 
-            // backgroundColor:"black",
-            // 💡 Shadow jo neeche ki taraf offset ho (y-axis: 8px)
-            boxShadow: '0px 10px 45px 11px rgba(0, 0, 0, 0.7)' 
-        }}
-    />
-
-
-
-            {/* 🌟 NEW: Sliding Indicator Element */}
-            <div
-                className={`absolute ${ACTIVE_TAB_BG} rounded-[16px] h-[49px] transition-all duration-700 ease-in-out z-10 bg-[#171717]`}
-                style={{
-                    ...getIndicatorStyles(),
-                    
-                    boxShadow: ' 5px 10px 29px 15px rgba(0, 0, 0, 0.55)',
-                    // Top: Container's padding-top (p-1 = 4px)
-                    // top: `${containerPadding}px`, 
-                    left: `${containerPadding}px`, // Yahan sirf container padding de dein
-                 top: `${containerPadding}px`, // top-p-1 (4px)
-                }}
-            />
-
-            {/* Existing Tab Buttons */}
-            {tabs.map((tab) => (
-                <button
-                    key={tab.id}
-                    // onClick={() => setActiveTabId(tab.id)}
-                    onClick={() => handleTabClick(tab.id)}
-                    // *TAB BUTTON STYLING*
-                    // Button ko z-index 1 dedo taaki woh indicator ke upar rahe
-                    // slide-right-effect is removed from here to prevent conflict, but you can keep it on inactive tabs only.
-                    className={`${activeTabId !== tab.id ? 'slide-right-effect' : ''} py-2 px-4 text-[18px] font-semibold transition-colors duration-100 w-[195px] h-[49px] rounded-[16px] pt-[10px] pr-[24px] pb-[10px] pl-[24px]  z-10
-                    
-
-                     ${
-                              activeTabId === tab.id
-                                ? `${ACTIVE_TAB_BG} text-white delay-500 shadow-[#485B71]` // Active Tab: White BG
-                                : `${INACTIVE_TAB_TEXT}` // Inactive Tab: Gray text
-                            }`} 
-
-                            
-                            style={{ fontFamily: '"Poppins", sans-serif',fontWeight: '500',fontStyle: 'normal', lineHeight: '16.12px', textAlign: 'center', outline:"none", border:"none"}}
-                >
-                    {tab.label}
-                </button>
-            ))}
-            
-        </div>
-   
+          </div>
 
           {/* Content Area */}
-          {/* Height: 175px, Width: 611px (approx. in Figma), Line Height: 1.4 */}
           <div
             className={`max-h-[175px] min-h-[175px] overflow-y-auto pr-2 custom-scrollbar 
                            ${CONTENT_TEXT_COLOR} text-[20px]`}
-            style={{ width: "611px", lineHeight:'100%'}} // Figma content width
+            style={{ width: "611px", lineHeight: "100%" }}
           >
             {activeTabContent}
           </div>
@@ -373,53 +261,8 @@ const handleTabClick = (newTabId) => {
           </svg>
         </div>
       </div>
-
     </div>
   );
 };
 
 export default ProfileWidget;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

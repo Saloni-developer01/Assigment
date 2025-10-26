@@ -1,107 +1,78 @@
-# React
+# 🧑‍💼 Interactive Profile Dashboard Widgets
 
-A modern React-based project utilizing the latest frontend technologies and tools for building responsive web applications.
+This repository contains the frontend implementation of two core interactive widgets, focusing on high-fidelity replication of a given Figma design. This assignment is built using **React.js** and styled with **Tailwind CSS**, emphasizing exact UI replication and dynamic user interactions.
 
-## 🚀 Features
+---
 
-- **React 18** - React version with improved rendering and concurrent features
-- **Vite** - Lightning-fast build tool and development server
-- **Redux Toolkit** - State management with simplified Redux setup
-- **TailwindCSS** - Utility-first CSS framework with extensive customization
-- **React Router v6** - Declarative routing for React applications
-- **Data Visualization** - Integrated D3.js and Recharts for powerful data visualization
-- **Form Management** - React Hook Form for efficient form handling
-- **Animation** - Framer Motion for smooth UI animations
-- **Testing** - Jest and React Testing Library setup
+## ✨ Key Features & Components
 
-## 📋 Prerequisites
+The assignment focuses on recreating two main widgets on the right-hand side of the screen, as per the design:
 
-- Node.js (v14.x or higher)
-- npm or yarn
+### 1. Tabbed Profile Widget (Top Widget)
+* **Three Clickable Tabs:** `About Me`, `Experiences`, and `Recommended`.
+* **Interactive State:** The currently selected tab is visually highlighted with distinct styling (e.g., a background fill).
+* **Dynamic Content:** The content area below the tabs updates based on the active tab (e.g., showing biographical text for 'About Me' or a recommendation blurb for 'Recommended').
+* **Styling:** Features the exact padding, margins, and shadow effects to match the Figma neomorphic design.
 
-## 🛠️ Installation
+### 2. Interactive Image Gallery Widget (Bottom Widget)
+* **Horizontal Scrollable Carousel:** Displays images with smooth horizontal scrolling.
+* **Advanced Hover Interaction:** Images scale up, rotate slightly, and lift on hover, complete with updated `z-index` for proper stacking.
+* **Dark Overlay:** A subtle dark overlay is applied to all images, which fades out on hover to reveal the true colors.
+* **Dynamic Controls:**
+    * **`+ ADD IMAGE` Button:** Allows users to dynamically upload and add new images to the gallery.
+    * **Custom Navigation Arrows:** Arrows disable when the start or end of the gallery is reached.
+    * **Boundary Glow Effect:** A visual "Glow" effect is implemented on the opposite arrow when one is disabled, guiding the user to the available content.
 
-1. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-   
-2. Start the development server:
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
+### 3. General Implementation Standards
+* **High Fidelity:** Replicated the exact UI, including typography, spacing, padding, and the specific dark, shadow-rich aesthetic (neomorphism/glass effect) seen in the Figma file.
+* **Responsiveness:** All components are responsive for **laptop screens** (above 768px width).
+* **Alignment:** Ensured the two widgets are precisely aligned with each other (relative right and left padding).
 
-## 📁 Project Structure
+---
 
-```
-react_app/
-├── public/             # Static assets
-├── src/
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # Page components
-│   ├── styles/         # Global styles and Tailwind configuration
-│   ├── App.jsx         # Main application component
-│   ├── Routes.jsx      # Application routes
-│   └── index.jsx       # Application entry point
-├── .env                # Environment variables
-├── index.html          # HTML template
-├── package.json        # Project dependencies and scripts
-├── tailwind.config.js  # Tailwind CSS configuration
-└── vite.config.js      # Vite configuration
-```
+## ⚙️ Technologies Used
 
-## 🧩 Adding Routes
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | React.js | Building modular components and managing UI state. |
+| **Styling** | Tailwind CSS | Utility-first styling for high-precision replication of the design. |
+| **Interaction**| JavaScript (ES6+) | Handling dynamic tab switching, scroll events, and image uploads. |
 
-To add new routes to the application, update the `Routes.jsx` file:
+---
 
-```jsx
-import { useRoutes } from "react-router-dom";
-import HomePage from "pages/HomePage";
-import AboutPage from "pages/AboutPage";
+## 🚀 Getting Started (Local Setup)
 
-const ProjectRoutes = () => {
-  let element = useRoutes([
-    { path: "/", element: <HomePage /> },
-    { path: "/about", element: <AboutPage /> },
-    // Add more routes as needed
-  ]);
+Follow these steps to set up and run the assignment locally.
 
-  return element;
-};
-```
+### Prerequisites
 
-## 🎨 Styling
+You need to have **Node.js** and **npm** (or yarn) installed on your system.
 
-This project uses Tailwind CSS for styling. The configuration includes:
+### Installation
 
-- Forms plugin for form styling
-- Typography plugin for text styling
-- Aspect ratio plugin for responsive elements
-- Container queries for component-specific responsive design
-- Fluid typography for responsive text
-- Animation utilities
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Saloni-developer01/Assigment.git
+    cd [YOUR_PROJECT_FOLDER_NAME]
+    ```
 
-## 📱 Responsive Design
+2.  **Install project dependencies:**
+    ```bash
+    npm install 
+    # OR
+    yarn install
+    ```
 
-The app is built with responsive design using Tailwind CSS breakpoints.
+3.  **Run the development server:**
+    ```bash
+    npm start
+    # OR
+    yarn start
+    ```
+    The application will typically open in your web browser at `http://localhost:3000`.
 
+---
 
-## 📦 Deployment
+## ⚠️ Known Issue (Gallery Widget)
 
-Build the application for production:
-
-```bash
-npm run build
-```
-
-## 🙏 Acknowledgments
-
-- Built with [Rocket.new](https://rocket.new)
-- Powered by React and Vite
-- Styled with Tailwind CSS
-
-Built with ❤️ on Rocket.new
+* **Image Clipping Anomaly:** Despite aggressive use of CSS anti-clipping measures (large padding buffers, `overflow-visible` on parent elements, and high `z-index` on hover), a minor visual anomaly (clipping) may occasionally occur during the aggressive hover-scaling of images in certain browser environments. This is due to the constraints of the nested scrollable container model.

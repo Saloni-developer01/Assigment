@@ -1,18 +1,12 @@
-// // src/components/GalleryWidget.js
-
 import React, { useRef, useState } from "react";
 
-// Initial images list (Dummy data for initial display)
 const initialGalleryImages = [
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
-  "/images/img5.avif",
+  "/images/img.avif",
+  "/images/img.avif",
+  "/images/img.avif",
+  "/images/img.avif",
+  "/images/img.avif",
+  "/images/img.avif",
 ];
 
 const GalleryWidget = () => {
@@ -20,23 +14,21 @@ const GalleryWidget = () => {
   const scrollContainerRef = useRef(null);
   const fileInputRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [hasScrolledFromStart, setHasScrolledFromStart] = useState(false);
+
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  //     // NEW STATES: Glow effect ke liye dono arrows ke liye
   const [isLeftArrowGlowing, setIsLeftArrowGlowing] = useState(false);
   const [isRightArrowGlowing, setIsRightArrowGlowing] = useState(false);
 
-  //     // Constants for SS-like disabled style (dark background, gray text)
-  const DISABLED_TEXT_COLOR = "text-[#3C3C43]";
-  const DISABLED_BG_COLOR = "bg-[blue]";
-  const ENABLED_STYLES =
-    "text-grey bg-[red] hover:bg-gray-600 hover:shadow-md";
-  const GLOW_STYLES =
-    "shadow-[0_0_10px_2px_rgba(255,255,255,0.7)] bg-[red]"; // White glow and bright background
+  const DISABLED_TEXT_COLOR = "text-[white]";
+  const DISABLED_BG_COLOR =
+    "linear-gradient(180deg, #5584bdff 0%, #173b5fff 100%)";
+  const ENABLED_STYLES = " hover:bg-[black] hover:shadow-md";
+  const GLOW_STYLES = "shadow-[0_0_5px_1px_#8CAFD9] text-white";
 
-  //     // ------------------------------------
-  //     // 1. ADD IMAGE Functionality
-  //     // ------------------------------------
+  //  ADD IMAGE Functionality
+
   const handleAddImageClick = () => {
     fileInputRef.current.click();
   };
@@ -60,16 +52,11 @@ const GalleryWidget = () => {
     }
   };
 
-  //     // ------------------------------------
-  //     // 2. SCROLL Functionality (Carousel)
-  //     // ------------------------------------
+  //  SCROLL Functionality (Carousel)
 
-  //     // Function to handle horizontal scrolling
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      // LOGIC: Check if scroll limit is reached on click
       if (direction === "left" && isLeftDisabled) {
-        // Left limit par click kiya -> Right Arrow glow karo
         setIsRightArrowGlowing(true);
         setTimeout(() => {
           setIsRightArrowGlowing(false);
@@ -78,7 +65,6 @@ const GalleryWidget = () => {
       }
 
       if (direction === "right" && isRightDisabled) {
-        // Right limit par click kiya -> Left Arrow glow karo
         setIsLeftArrowGlowing(true);
         setTimeout(() => {
           setIsLeftArrowGlowing(false);
@@ -86,13 +72,7 @@ const GalleryWidget = () => {
         return;
       }
 
-      //             // Normal smooth scrolling
-      //   const scrollAmount = scrollContainerRef.current.clientWidth * 0.75;
-      //   const currentScroll = scrollContainerRef.current.scrollLeft;
-
-      // Normal smooth scrolling (Adjusted scroll amount for better 3-image view)
       const containerWidth = scrollContainerRef.current.clientWidth;
-      // Scroll 1/3 container width (approx one image width + gap)
       const scrollAmount = containerWidth / 3;
       const currentScroll = scrollContainerRef.current.scrollLeft;
 
@@ -104,7 +84,6 @@ const GalleryWidget = () => {
     }
   };
 
-  //     // Function to check scroll position and update state
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } =
@@ -112,33 +91,24 @@ const GalleryWidget = () => {
 
       setScrollPosition(scrollLeft);
 
-      //             // Check if scroll is at the very end (right side)
+      if (scrollLeft > 0 && !hasScrolledFromStart) {
+        setHasScrolledFromStart(true);
+      }
+
       const maxScroll = scrollWidth - clientWidth;
       setIsAtEnd(scrollLeft >= maxScroll - 5);
     }
   };
 
-  //     // Check if the scroll is at the start
-  const isLeftDisabled = scrollPosition === 0;
+  const isLeftDisabled = scrollPosition === 0 && hasScrolledFromStart;
 
-  // phla change
-  // const isLeftDisabled = scrollPosition <= 5; // Using a small tolerance (5)
-  // Check if the scroll is at the end
   const isRightDisabled = isAtEnd;
 
-  // --- Figma color and styling matches ---
   const WIDGET_BG_COLOR = "bg-[#363c43]";
   const BORDER_COLOR = "border-[#3C3C43]";
-  const TAB_CONTAINER_BG = "bg-[#1D1D21]"; // Tabs ka container background bhi widget jaisa hi dikh raha hai
-  const ACTIVE_TAB_BG = "bg-[#28292f]";
-  const ACTIVE_TAB_TEXT = "text-white";
-  const INACTIVE_TAB_TEXT = "text-[#969696]"; // Figma ka inactive tab text color
-  const CONTENT_TEXT_COLOR = "text-[#969696]"; // Content text color
 
   return (
     <div>
-      {/* // Dark, rounded container with border and shadow */}
-
       <div
         className={`${WIDGET_BG_COLOR} p-6 rounded-[18.89px] shadow-2xl border ${BORDER_COLOR} overflow-visible flex`}
         style={{
@@ -148,7 +118,6 @@ const GalleryWidget = () => {
             "5px 6px 6px 0 rgba(0, 0, 0, 0.5), -1px -1px 2px 0 rgba(255, 255, 255, 0.05)",
         }}
       >
-        {/* Hidden File Input */}
         <input
           type="file"
           ref={fileInputRef}
@@ -156,9 +125,8 @@ const GalleryWidget = () => {
           accept="image/*"
           style={{ display: "none" }}
         />
-        {/* Header: Gallery Title and Controls */}
 
-        {/* NEW: Question Mark Icon */}
+        {/* Question Mark Icon */}
         <div className="text-xl font-bold text-gray-200 flex  ml-[-10px] mr-[22px] w-[24px] h-[159.69px]   mt-[1px]">
           <svg
             width="24"
@@ -190,13 +158,10 @@ const GalleryWidget = () => {
             className="absolute ml-[4px] mt-[119px] w-[24px] h-[30.69px]
                             grid grid-cols-2 gap-[2px]"
           >
-            {" "}
-            {/* <-- NEW: grid grid-cols-2 aur gap */}
-            {/* Use a map or repeat the span elements for 6 boxes */}
             {[...Array(6)].map((_, i) => (
               <span
                 key={i}
-                className="w-[9.31px] h-[9.17px] bg-gray-400 block rounded-[1.16px] bg-[#4A4E54]"
+                className="w-[9.31px] h-[9.17px] block rounded-[1.16px] bg-[#4A4E54]"
               ></span>
             ))}
           </div>
@@ -204,9 +169,6 @@ const GalleryWidget = () => {
 
         <div style={{ width: "620px" }}>
           <div className="flex justify-between items-center mb-6">
-            {/* Left Side: Question Mark and Gallery Title */}
-            {/* Left Side: Gallery Title */}
-
             <h2 className="text-gray-200 flex items-center space-x-2">
               <span
                 className="bg-[#171717] px-[37px] py-[18px] text-gray-200 w-[149px] h-[62px] rounded-[20px] text-[20px]"
@@ -219,16 +181,12 @@ const GalleryWidget = () => {
                 Gallery
               </span>
             </h2>
-            {/* Right Side: + ADD IMAGE and Navigation Arrows */}
 
             <div className="flex space-x-3 items-center">
-              {/* + ADD IMAGE Button */}
-
               <button
                 onClick={handleAddImageClick}
                 className="bg-[#3F454C] text-white px-4 py-2 text-[12px] transition-colors w-[131.32px] h-[46px] rounded-[104px] mr-[20px]"
                 style={{
-                  // 🌟 FIX: Neomorphism Shadow (Light top-left, Dark bottom-right)
                   boxShadow: "10px 10px 8px #262629ff, 1px -2px 8px #828285ff",
                 }}
               >
@@ -263,40 +221,31 @@ const GalleryWidget = () => {
                   </span>
                 </div>
               </button>
-              {/* LEFT Arrow Button (Styling based on scroll position OR glow state) */}
+
               <button
                 onClick={() => scroll("left")}
-
-                // className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black]${
-                //   isLeftDisabled
-                //     ? `text-grey bg-[red] cursor-default`
-                //     : ENABLED_STYLES
-                // } ${
-                //   // Right Arrow ki glow ki request par iski styling (agar right arrow glow kar raha hai, toh yeh normal rahega)
-                //   isRightArrowGlowing
-                //     ? ""
-                //     : isLeftArrowGlowing
-                //     ? GLOW_STYLES
-                //     : ""
-                // }`}
-
-
-
-
-                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black] ${
-    isLeftArrowGlowing // 💡 CHANGE 1: Glow state ka check pehle rakhein!
-        ? GLOW_STYLES // Glow active hone par glow styling do.
-        : isLeftDisabled // Agar glow active nahi, tab check karo ki disabled hai kya?
-        ? `text-grey bg-red cursor-default` // Disabled styling
-        : ENABLED_STYLES // Agar disabled aur glowing dono nahi hain, toh normal enabled styling
-}`}
-
-
+                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black] slide-diagonal-effect ${
+                  isLeftArrowGlowing
+                    ? GLOW_STYLES
+                    : isLeftDisabled
+                    ? `text-grey cursor-default`
+                    : ENABLED_STYLES
+                }`}
                 style={{
-                  background:
-                    "linear-gradient(180deg, #303439 0%, #161718 100%)",
-                  // 🌟 FIX: Concave/Pressed Shadow (Inset)
-                  boxShadow: " 4px 4px 8px #1A1A1E, -4px -4px 8px #484850",
+                  background: isLeftArrowGlowing
+                    ? ""
+                    : isLeftDisabled
+                    ? "linear-gradient(130deg, #8CAFD9, #353535ff)"
+                    : "linear-gradient(180deg, #303439 0%, #161718 100%)",
+                  boxShadow: isLeftArrowGlowing
+                    ? ""
+                    : "4px 4px 8px #1A1A1E, -4px -4px 8px #484850",
+                  border: isRightArrowGlowing ? "#1c7cebff" : " ",
+                  color: isLeftArrowGlowing
+                    ? ""
+                    : isLeftDisabled
+                    ? `${DISABLED_TEXT_COLOR}`
+                    : "",
                 }}
               >
                 <div className="flex justify-center">
@@ -309,7 +258,13 @@ const GalleryWidget = () => {
                   >
                     <path
                       d="M8 15L1 8L8 1"
-                      stroke="#6F787C"
+                      stroke={
+                        isLeftArrowGlowing
+                          ? "white"
+                          : isLeftDisabled
+                          ? "white"
+                          : "#6F787C"
+                      }
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -326,7 +281,13 @@ const GalleryWidget = () => {
                   >
                     <path
                       d="M1 0.999988H15.1944"
-                      stroke="#6F787C"
+                      stroke={
+                        isLeftArrowGlowing
+                          ? "white"
+                          : isLeftDisabled
+                          ? "white"
+                          : "#6F787C"
+                      }
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -335,40 +296,25 @@ const GalleryWidget = () => {
                 </div>
               </button>
 
-              {/* RIGHT Arrow Button (Styling based on scroll position OR glow state) */}
               <button
                 onClick={() => scroll("right")}
-                // SS-like disabled style jab end par ho
-                // className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer ${
-                //   isRightDisabled
-                //     ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default`
-                //     : ENABLED_STYLES
-                // } ${
-                //   // Left Arrow ki glow ki request par iski styling (agar left arrow glow kar raha hai, toh yeh normal rahega)
-                //   isLeftArrowGlowing
-                //     ? ""
-                //     : isRightArrowGlowing
-                //     ? GLOW_STYLES
-                //     : ""
-                // }`}
-
-
-
-
-                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer ${
-    isRightArrowGlowing // 💡 CHANGE 2: Glow state ka check pehle rakhein!
-        ? GLOW_STYLES // Glow active hone par glow styling do.
-        : isRightDisabled // Agar glow active nahi, tab check karo ki disabled hai kya?
-        ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default` // Disabled styling
-        : ENABLED_STYLES // Agar disabled aur glowing dono nahi hain, toh normal enabled styling
-}`}
-
-
-
+                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer slide-diagonal-effect${
+                  isRightArrowGlowing
+                    ? GLOW_STYLES
+                    : isRightDisabled
+                    ? `${DISABLED_TEXT_COLOR}  cursor-default`
+                    : ENABLED_STYLES
+                }`}
                 style={{
-                  background:
-                    "linear-gradient(180deg, #303439 0%, #161718 100%)",
-                  boxShadow: "4px 4px 8px #1A1A1E,  -4px -4px 8px #484850",
+                  background: isRightArrowGlowing
+                    ? " "
+                    : isRightDisabled
+                    ? "linear-gradient(130deg, #8CAFD9, #353535ff)"
+                    : "linear-gradient(180deg, #303439 0%, #161718 100%)",
+                  boxShadow: isRightArrowGlowing
+                    ? " "
+                    : "4px 4px 8px #1A1A1E, -4px -4px 8px #484850",
+                  border: isRightArrowGlowing ? "#1c7cebff" : " ",
                 }}
               >
                 <div className="flex justify-center">
@@ -382,7 +328,13 @@ const GalleryWidget = () => {
                   >
                     <path
                       d="M1 0.999988H15.1944"
-                      stroke="#6F787C"
+                      stroke={
+                        isRightArrowGlowing
+                          ? "white"
+                          : isRightDisabled
+                          ? "white"
+                          : "#6F787C"
+                      }
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -398,7 +350,13 @@ const GalleryWidget = () => {
                   >
                     <path
                       d="M1 1L8 8L1 15"
-                      stroke="#6F787C"
+                      stroke={
+                        isRightArrowGlowing
+                          ? "white"
+                          : isRightDisabled
+                          ? "white"
+                          : "#6F787C"
+                      }
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -409,31 +367,28 @@ const GalleryWidget = () => {
             </div>
           </div>
 
-                {/* dusra change */}
-          <div className="relative flex items-center mb-[20px] ">
+          <div className="relative flex items-center mb-[20px]  mr-[-27px]">
             <div
               ref={scrollContainerRef}
               onScroll={handleScroll}
-              className="grid grid-flow-col gap-3 overflow-x-scroll overflow-y-visible scrollbar-hide snap-x snap-mandatory w-full py-5"
+              className="grid grid-flow-col gap-3 overflow-x-scroll overflow-y-visible scrollbar-hide snap-x snap-mandatory w-full py-6"
             >
               {galleryImages.map((src, index) => (
                 <div
                   key={index}
-                  className="relative aspect-[4/3] w-[200px] h-[179px] overflow-hidden rounded-[24px] shadow-sm border border-transparent 
+                  className="relative aspect-[4/3] w-[200px] h-[179px] overflow-hidden rounded-[24px] shadow-sm border border-transparent snap-start z-10 group cursor-pointer mr-1
                                     transform transition-all duration-300 ease-out snap-start z-10
-                                    hover:scale-[1.1] hover:-translate-y-2 hover:-rotate-[2deg] hover:z-20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.15)cursor-pointer"
+                                    hover:scale-[1.10] hover:-translate-y-3 hover:-rotate-[2deg] hover:z-20 hover:shadow-[0_10px_25px_#171717] cursor-pointer mr-1"
+                  style={{ transformOrigin: "center center" }}
                 >
-
-                  {/* <div className="absolute inset-0 bg-black opacity-30 transition-opacity duration-500 z-30 group-hover:opacity-0" /> */}
-
-
+                  <div className="absolute inset-0 bg-black opacity-30 transition-opacity duration-500 z-30 group-hover:opacity-0" />
 
                   <img
                     src={src}
                     alt={`Gallery image ${index + 1}`}
                     className="object-cover w-full h-full 
-                                        filter grayscale transition-all duration-500 ease-in-out
-                                        hover:grayscale-0 hover:brightness-110"
+                                filter grayscale transition-all duration-500 ease-in-out
+                                group-hover:grayscale-0 group-hover:brightness-110"
                   />
                 </div>
               ))}
@@ -456,47 +411,3 @@ const GalleryWidget = () => {
 };
 
 export default GalleryWidget;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
