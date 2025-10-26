@@ -26,6 +26,7 @@ const GalleryWidget = () => {
     "linear-gradient(180deg, #5584bdff 0%, #173b5fff 100%)";
   const ENABLED_STYLES = " hover:bg-[black] hover:shadow-md";
   const GLOW_STYLES = "shadow-[0_0_5px_1px_#8CAFD9] text-white";
+const GLOW_SHADOW = "0 0 5px 1px #8CAFD9";
 
   //  ADD IMAGE Functionality
 
@@ -224,7 +225,9 @@ const GalleryWidget = () => {
 
               <button
                 onClick={() => scroll("left")}
-                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black] slide-diagonal-effect ${
+                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] 
+                  ${!isLeftDisabled && !isLeftArrowGlowing ? 'slide-diagonal-effect ' : ''}
+                  ${
                   isLeftArrowGlowing
                     ? GLOW_STYLES
                     : isLeftDisabled
@@ -240,7 +243,7 @@ const GalleryWidget = () => {
                   boxShadow: isLeftArrowGlowing
                     ? ""
                     : "4px 4px 8px #1A1A1E, -4px -4px 8px #484850",
-                  border: isRightArrowGlowing ? "#1c7cebff" : " ",
+                  border: isLeftArrowGlowing ? "#1c7cebff" : " ",
                   color: isLeftArrowGlowing
                     ? ""
                     : isLeftDisabled
@@ -298,7 +301,9 @@ const GalleryWidget = () => {
 
               <button
                 onClick={() => scroll("right")}
-                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer slide-diagonal-effect${
+                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer
+                  ${!isRightDisabled && !isRightArrowGlowing ? 'slide-diagonal-effect ' : ''}
+                  ${
                   isRightArrowGlowing
                     ? GLOW_STYLES
                     : isRightDisabled
@@ -307,14 +312,19 @@ const GalleryWidget = () => {
                 }`}
                 style={{
                   background: isRightArrowGlowing
-                    ? " "
+                    ? ""
                     : isRightDisabled
                     ? "linear-gradient(130deg, #8CAFD9, #353535ff)"
                     : "linear-gradient(180deg, #303439 0%, #161718 100%)",
                   boxShadow: isRightArrowGlowing
-                    ? " "
+                    ? GLOW_SHADOW
                     : "4px 4px 8px #1A1A1E, -4px -4px 8px #484850",
                   border: isRightArrowGlowing ? "#1c7cebff" : " ",
+                  color: isRightArrowGlowing
+                    ? "white"
+                    : isRightDisabled
+                    ? `${DISABLED_TEXT_COLOR}`
+                    : "",
                 }}
               >
                 <div className="flex justify-center">
