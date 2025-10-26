@@ -30,7 +30,7 @@ const GalleryWidget = () => {
   const DISABLED_TEXT_COLOR = "text-[#3C3C43]";
   const DISABLED_BG_COLOR = "bg-[blue]";
   const ENABLED_STYLES =
-    "text-white bg-gray-700 hover:bg-gray-600 hover:shadow-md";
+    "text-grey bg-[red] hover:bg-gray-600 hover:shadow-md";
   const GLOW_STYLES =
     "shadow-[0_0_10px_2px_rgba(255,255,255,0.7)] bg-[red]"; // White glow and bright background
 
@@ -266,19 +266,32 @@ const GalleryWidget = () => {
               {/* LEFT Arrow Button (Styling based on scroll position OR glow state) */}
               <button
                 onClick={() => scroll("left")}
-                // SS-like disabled style jab start par ho
-                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black]${
-                  isLeftDisabled
-                    ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default`
-                    : ENABLED_STYLES
-                } ${
-                  // Right Arrow ki glow ki request par iski styling (agar right arrow glow kar raha hai, toh yeh normal rahega)
-                  isRightArrowGlowing
-                    ? ""
-                    : isLeftArrowGlowing
-                    ? GLOW_STYLES
-                    : ""
-                }`}
+
+                // className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black]${
+                //   isLeftDisabled
+                //     ? `text-grey bg-[red] cursor-default`
+                //     : ENABLED_STYLES
+                // } ${
+                //   // Right Arrow ki glow ki request par iski styling (agar right arrow glow kar raha hai, toh yeh normal rahega)
+                //   isRightArrowGlowing
+                //     ? ""
+                //     : isLeftArrowGlowing
+                //     ? GLOW_STYLES
+                //     : ""
+                // }`}
+
+
+
+
+                className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] hover:bg-[black] ${
+    isLeftArrowGlowing // 💡 CHANGE 1: Glow state ka check pehle rakhein!
+        ? GLOW_STYLES // Glow active hone par glow styling do.
+        : isLeftDisabled // Agar glow active nahi, tab check karo ki disabled hai kya?
+        ? `text-grey bg-red cursor-default` // Disabled styling
+        : ENABLED_STYLES // Agar disabled aur glowing dono nahi hain, toh normal enabled styling
+}`}
+
+
                 style={{
                   background:
                     "linear-gradient(180deg, #303439 0%, #161718 100%)",
@@ -326,18 +339,32 @@ const GalleryWidget = () => {
               <button
                 onClick={() => scroll("right")}
                 // SS-like disabled style jab end par ho
+                // className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer ${
+                //   isRightDisabled
+                //     ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default`
+                //     : ENABLED_STYLES
+                // } ${
+                //   // Left Arrow ki glow ki request par iski styling (agar left arrow glow kar raha hai, toh yeh normal rahega)
+                //   isLeftArrowGlowing
+                //     ? ""
+                //     : isRightArrowGlowing
+                //     ? GLOW_STYLES
+                //     : ""
+                // }`}
+
+
+
+
                 className={`p-2 rounded-full transition-all duration-300 w-[45px] h-[45px] cursor-pointer ${
-                  isRightDisabled
-                    ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default`
-                    : ENABLED_STYLES
-                } ${
-                  // Left Arrow ki glow ki request par iski styling (agar left arrow glow kar raha hai, toh yeh normal rahega)
-                  isLeftArrowGlowing
-                    ? ""
-                    : isRightArrowGlowing
-                    ? GLOW_STYLES
-                    : ""
-                }`}
+    isRightArrowGlowing // 💡 CHANGE 2: Glow state ka check pehle rakhein!
+        ? GLOW_STYLES // Glow active hone par glow styling do.
+        : isRightDisabled // Agar glow active nahi, tab check karo ki disabled hai kya?
+        ? `${DISABLED_TEXT_COLOR} ${DISABLED_BG_COLOR} cursor-default` // Disabled styling
+        : ENABLED_STYLES // Agar disabled aur glowing dono nahi hain, toh normal enabled styling
+}`}
+
+
+
                 style={{
                   background:
                     "linear-gradient(180deg, #303439 0%, #161718 100%)",
@@ -394,7 +421,7 @@ const GalleryWidget = () => {
                   key={index}
                   className="relative aspect-[4/3] w-[200px] h-[179px] overflow-hidden rounded-[24px] shadow-sm border border-transparent 
                                     transform transition-all duration-300 ease-out snap-start z-10
-                                    hover:scale-[1.10] hover:-translate-y-2 hover:-rotate-[2deg] hover:z-20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.15)cursor-pointer"
+                                    hover:scale-[1.1] hover:-translate-y-2 hover:-rotate-[2deg] hover:z-20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.15)cursor-pointer"
                 >
 
                   {/* <div className="absolute inset-0 bg-black opacity-30 transition-opacity duration-500 z-30 group-hover:opacity-0" /> */}
